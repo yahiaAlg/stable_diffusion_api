@@ -9,13 +9,17 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     OMP_NUM_THREADS=8 \
-    MKL_NUM_THREADS=8
+    MKL_NUM_THREADS=8 \
+    HF_HOME=/root/.cache/huggingface
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
+
+# Create cache directory with proper permissions
+RUN mkdir -p /root/.cache/huggingface
 
 # Install Python packages
 COPY requirements.txt .

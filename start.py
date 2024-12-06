@@ -77,19 +77,23 @@ class GenerationResponse(BaseModel):
 
 
 def initialize_pipeline():
-    # Initialize pipeline for CPU
+    # Initialize pipeline for CPU with explicit caching
     pipeline = StableDiffusionPipeline.from_pretrained(
         "runwayml/stable-diffusion-v1-5",
         torch_dtype=torch.float32,
         safety_checker=None,
+        cache_dir="./cache",  # Explicit cache directory
+        local_files_only=False,  # Allow downloading if not cached
+        resume_download=True,  # Resume interrupted downloads
     )
 
     # Move pipeline to CPU explicitly
     pipeline = pipeline.to("cpu")
 
-    # Enable optimizations
+    # Enable memory optimizations
     pipeline.enable_attention_slicing(1)
     pipeline.enable_vae_slicing()
+    pipeline.enable_model_cpu_offload()
 
     return pipeline
 
