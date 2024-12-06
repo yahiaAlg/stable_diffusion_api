@@ -75,21 +75,26 @@ class GenerationResponse(BaseModel):
     image: Optional[str] = None
     generated_at: datetime
 
+
 def initialize_pipeline():
-    # Load in 8-bit mode for memory efficiency
+    # Force CPU device
     pipeline = StableDiffusionPipeline.from_pretrained(
         "runwayml/stable-diffusion-v1-5",
-        torch_dtype=torch.float32,  # Use float32 for CPU
+        torch_dtype=torch.float32,
         safety_checker=None,
         low_cpu_mem_usage=True,
+        device_map="cpu",  # Explicitly set to CPU
     )
-    
-    # CPU optimizations
-    pipeline.enable_sequential_cpu_offload()
+
+    # CPU-specific optimizations
     pipeline.enable_attention_slicing(1)
     pipeline.enable_vae_slicing()
-    
+
+    # Remove the sequential CPU offload since it's not needed when explicitly using CPU
+    # pipeline.enable_sequential_cpu_offload()  # Remove this line
+
     return pipeline
+
 
 class WorkerPool:
     def __init__(self, num_workers):
