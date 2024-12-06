@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  sd-api:
+    build: .
+    ports:
+      - "8096:8000"
+    environment:
+      - API_KEY=your-secret-key-here
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+      - NUMPY_NUM_THREADS=8
+    deploy:
+      resources:
+        limits:
+          cpus: '0.000'
+          memory: 16G
+        reservations:
+          cpus: '4.0'
+          memory: 8G
+    volumes:
+      - ./cache:/root/.cache  # For model caching
+    restart: unless-stopped

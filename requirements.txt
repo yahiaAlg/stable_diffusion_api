@@ -1,0 +1,13 @@
+torch
+torchvision
+--extra-index-url https://download.pytorch.org/whl/cpu
+diffusers
+transformers
+fastapi
+uvicorn
+python-multipart
+pydantic
+pillow
+numpy
+accelerate
+python-dotenv
