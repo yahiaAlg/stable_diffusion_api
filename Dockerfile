@@ -14,11 +14,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python packages
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir numpy==1.23.5 && \
+    pip3 install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . .

@@ -1,13 +1,13 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.0.1+cpu
 torchvision==0.15.2+cpu
---extra-index-url https://download.pytorch.org/whl/cpu
-diffusers
-transformers
-fastapi
-uvicorn
-python-multipart
-pydantic
-pillow
-numpy
-accelerate
-python-dotenv
+numpy==1.23.5  # Specific version to avoid compatibility issues
+diffusers==0.21.4
+transformers==4.31.0
+fastapi==0.100.0
+uvicorn==0.23.1
+python-multipart==0.0.6
+pydantic==2.0.3
+pillow==10.0.0
+accelerate==0.21.0
+python-dotenv==1.0.0
