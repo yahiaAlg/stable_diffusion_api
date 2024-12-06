@@ -8,6 +8,9 @@ services:
       - OMP_NUM_THREADS=8
       - MKL_NUM_THREADS=8
       - NUMPY_NUM_THREADS=8
+      - HF_HOME=/app/cache
+      - TRANSFORMERS_CACHE=/app/cache
+      - HF_DATASETS_CACHE=/app/cache
     deploy:
       resources:
         limits:
@@ -17,5 +20,5 @@ services:
           cpus: '4.0'
           memory: 8G
     volumes:
-      - ./cache:/root/.cache  # For model caching
+      - ./cache:/app/cache
     restart: unless-stopped
