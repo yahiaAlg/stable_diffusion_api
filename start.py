@@ -77,21 +77,19 @@ class GenerationResponse(BaseModel):
 
 
 def initialize_pipeline():
-    # Force CPU device
+    # Initialize pipeline for CPU
     pipeline = StableDiffusionPipeline.from_pretrained(
         "runwayml/stable-diffusion-v1-5",
         torch_dtype=torch.float32,
         safety_checker=None,
-        low_cpu_mem_usage=True,
-        device_map="cpu",  # Explicitly set to CPU
     )
 
-    # CPU-specific optimizations
+    # Move pipeline to CPU explicitly
+    pipeline = pipeline.to("cpu")
+
+    # Enable optimizations
     pipeline.enable_attention_slicing(1)
     pipeline.enable_vae_slicing()
-
-    # Remove the sequential CPU offload since it's not needed when explicitly using CPU
-    # pipeline.enable_sequential_cpu_offload()  # Remove this line
 
     return pipeline
 
